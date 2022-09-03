@@ -1,0 +1,127 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/index/index", // 首页
+			"name": "index",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/user/index", // 用户中心
+			"name": "userIndex",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/shops/index", // 商店
+			"name": "shopsIndex",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/chat/index", // 消息
+			"name": "chatIndex",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/shoppingCar/index", // 购物车
+			"name": "carIndex",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
+			"path": "pages/user/login", // 登录
+			"name": "userLogin",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/register", // 注册
+			"name": "userRegister",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/user/forget", // 忘记密码
+			"name": "userForget",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/shops/store", // 店铺
+			"name": "shopsStore",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/shops/detail", // 商店商品
+			"name": "shopsDetail",
+			"style": {
+				"navigationBarTitleText": "uni-app"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#9846FF",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [
+			{
+				"pagePath": "pages/shops/index",
+				"text": "外卖"
+			},
+			{
+				"pagePath": "pages/shoppingCar/index",
+				"text": "购物车"
+			},
+			{
+				"pagePath": "pages/index/index",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/chat/index",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"text": "我的"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#FCFCFC",
+		"backgroundColor": "#FCFCFC",
+		"enablePullDownRefresh":true,
+		"h5": {
+			"pullToRefresh": {
+				"support":true,
+				"style": "default"
+			}
+		}
+	},
+	"easycom": {
+		"autoscan": true
+	},
+	"uniIdRouter": {}
+}

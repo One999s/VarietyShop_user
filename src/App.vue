@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-04 13:41:09
+ * @LastEditTime: 2022-09-04 14:11:18
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -149,8 +149,7 @@ uni-page-body > view {
 
 .chat_box{
   .uni-navbar__header-container{display: none !important;}
-  .uni-navbar__header-btns-left{flex:1 !important;}
-  .uni-navbar__header-btns-right{width:unset !important;}
+  .uni-navbar__header-btns-left{flex:.85 !important;}
   .type_err{color: $theme_color_im !important;}
 }
 

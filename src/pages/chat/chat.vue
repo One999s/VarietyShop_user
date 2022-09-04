@@ -1,26 +1,25 @@
 <template>
-    <view class="chat_box">
+    <view 
+    :class="{
+        'chat_box':true,
+        'hidescroll':state.visible_mic
+    }"
+    >
+
         <uni-nav-bar statusBar :border="false"
 		fixed
 		>
         <template v-slot:left>
             <view class="chat_nav_left">
-                <uni-icons type="back" @click="goBack"/>
-                <view>商家-{{shopDetai.name}}</view>
+                    <uni-icons type="back" @click="goBack" style="margin-right:.5em" size="20"/>
+                    
+                    <view class="flex" @click="goToShop">
+                        <uni-icons type="shop" size="24"/>
+                        <view style="flex:1">{{shopDetai.name}}</view>
+                    </view>
             </view>
         </template>
-        <template v-slot:right>
-            <view class="chat_nav_right">
-                <view @click="handleCallPhone">
-                    <uni-icons type="phone" size="20"/>
-                    <text>电话</text>
-                </view>
-                <view @click="goToShop">
-                    <uni-icons type="shop" size="20"/>
-                    <text>店铺</text>
-                </view>
-            </view>
-        </template>
+       
     </uni-nav-bar>
     <view class="chat_list">
         <view
@@ -52,6 +51,24 @@
         </view>
     </view>
 
+    <!-- 录音 -->
+    <view class="mic_box"
+    v-if="state.visible_mic"
+    >
+        <view class="mb_voice">
+            <image src="/static/voice.gif"/>
+        </view>
+        <view class="mb_tool">
+            <view :class="{'close':true,'leave':!state.mic_close_in}" id="mb_close" >X</view>
+            <view></view>
+        </view>
+        <view
+        id="mb_footer"
+        :class="{'mb_footer':true,'leave':!state.mic_ing_in}"
+        >
+            <uni-icons type="sound" size="30"/>
+        </view>
+    </view>
     <!-- 底部操作栏 -->
     <view class="chat_tool">
         <view>
@@ -61,22 +78,26 @@
         </view>
         <view class="chat_tool_mid">
             <input v-if="!state.isMic"/>
-            <button v-if="state.isMic" size="mini" @longpress="handleSpeak">按住说话</button>
+            <button v-if="state.isMic" size="mini" @longpress="handleSpeak"
+            @touchmove="touchmove"
+            @touchend="touchend"
+            >{{state.visible_mic?'松开发送':'按住说话'}}</button>
 
         </view>
-        <view>
+        <view class="chat_tool_right">
             <uni-icons type="plusempty" :size="26" />
+            <uni-icons type="phone" :size="26" @click="handleCallPhone"/>
+           
         </view>
     </view>
     </view>
 </template>
 
 <script>
-import { reactive, ref } from 'vue'
+import { reactive, ref ,getCurrentInstance, nextTick} from 'vue'
 import { useStore } from '../../common/store/global';
-import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons.vue';
+
     export default {
-  components: { uniIcons },
         props:{
             id:String,
         },
@@ -84,9 +105,29 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
             const {user} = useStore();
             const shopDetai = ref({});
             const chatList = ref([]);
+            const instance = getCurrentInstance()
             const state = reactive({
-                isMic:true,// 发声音
+                isMic:false,// 底部左侧图标切换
+                visible_mic:false,// 录音
+                mic_close:{}, // 元素
+                mic_ing:{},// 元素
+                mic_ing_in:true,// 手指在语音范围
+                mic_close_in:false, // 手指不在语音范围
             })
+            
+            // #ifndef H5
+            const recorderManager = uni.getRecorderManager();// 录音管理器
+            const innerAudioContext = uni.createInnerAudioContext();
+
+            
+            recorderManager.onStop((res)=>{
+                console.log('recorder stop' + JSON.stringify(res));
+                console.log(res.tempFilePath)
+            });
+            // #endif
+
+
+
             const getShopDetail = ()=>{
                 // 获取商家信息
                 shopDetai.value = {
@@ -108,7 +149,7 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
             const handleCallPhone = ()=>{
                 // 拨打电话
                 uni.makePhoneCall({
-                    phoneNumber: shopDetai.phone 
+                    phoneNumber: shopDetai.value.phone 
                 });
             }
             const goBack = ()=>{
@@ -120,12 +161,59 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
             const imageURL = (sender)=>{
                 return sender?user.avatar:shopDetai.value.avatar
             }
+            const resetMicTypes = ()=>{
+                // 重置语音效果状态
+                state.mic_close_in = false;
+                state.mic_ing_in = true;
+            }
             const handleChangeType = ()=>{
+                // 文本、语音 切换
                 state.isMic = !state.isMic
             }
             const handleSpeak = ()=>{
+                state.visible_mic = true;
+                // 获取元素范围
+                nextTick(()=>{
+                    let query = uni.createSelectorQuery().in(instance);
+                    query.select('#mb_footer').boundingClientRect(data => {
+                        state.mic_ing = data
+                    }).select('#mb_close').boundingClientRect(data => {
+                        state.mic_close = data
+                    })
+                    .exec();
+                })
+                // recorderManager.start();// 开始录音
                 console.log("handleSpeakhandleSpeak")
+
             }
+            const touchmove = (e)=>{
+                let now = e.changedTouches[0]
+                let {mic_ing} = state
+                if(now.pageY>mic_ing.top&&now.pageX<mic_ing.right){
+                    // 在语音范围内
+                    state.mic_ing_in = true;
+                    state.mic_close_in = false;
+                }else{
+                    state.mic_ing_in = false
+                    state.mic_close_in = true;
+                    
+                }
+            }
+            const touchend = (e)=>{
+                state.visible_mic = false
+                if(state.mic_ing_in){
+                    console.log("发送")
+                    // 发送语音
+                    // recorderManager.stop()
+                }
+                if(state.mic_close_in){
+                    console.log("取消")
+                    // 清除录音
+
+                }
+                resetMicTypes(); // 重置状态
+            }
+
             getShopDetail()
             getList()
             return {
@@ -138,6 +226,7 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
                 imageURL,
                 handleChangeType,
                 handleSpeak,
+                touchmove,touchend,
 
             }
         }
@@ -147,6 +236,10 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
 <style lang="scss" scoped>
     $chat_avatar_height:50rpx;
     $chat_tool_height:88rpx;
+    .hidescroll{
+        overflow: hidden;
+    }
+    .flex{display: flex;align-items: center;}
     .chat_box{
         background-color: $theme_bg;
         .chat_avatar{
@@ -160,7 +253,7 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
         align-items: center;
         font-size: 30rpx;
         width: 100%;
-        &>view{
+        & view{
             overflow: hidden;
             text-overflow:ellipsis;
             white-space: nowrap;
@@ -260,6 +353,96 @@ import uniIcons from '../../uni_modules/uni-icons/components/uni-icons/uni-icons
                 border-radius: 10rpx;
             }
 
+        }
+        .chat_tool_right{
+            display: flex;
+            align-items: center;
+            &>uni-icons:not(:first-child){
+                    margin-left: 10rpx;
+            }
+        }
+    }
+    
+    .mic_box{
+        width: 100%;
+        height: 100%;
+        position:fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        background: rgba($color: #000000, $alpha: .8);
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        .mb_voice{
+            position: absolute;
+            left: 50%;
+            top:50%;
+            padding: 70rpx;
+            transform: translate(-50%,-50%);
+            display: flex;
+            width: 60%;
+            height: 100rpx;
+            border-radius: $space;
+            justify-content: center;
+            align-items: center;
+            background-image: linear-gradient($theme_color,$theme_color2);
+            image{width:100%;}
+        }
+        .mb_tool{
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 30rpx;
+            .close{
+                width: 100rpx;
+                height: 100rpx;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: rgba($color: #000, $alpha: .6);
+                color: rgba($color: #fff, $alpha: .8);
+                position: relative;
+                &:not(.leave){
+                    background: rgba($color: rgb(232, 62, 62), $alpha: .6) !important;
+                    &::after{
+                        content: "松开取消";
+                        position: absolute;
+                        top: -50%;
+                        left: 50%;
+                        width: 100%;
+                        transform: translate(-50%);
+                        font-size: 24rpx;
+                        color: rgba($color: #fff, $alpha: .8);
+                    }
+                }
+
+            }
+        }
+        .mb_footer{
+            width: 100%;
+            height: 180rpx;
+            background-color: rgba($color: #fff, $alpha: .6);
+
+		    border-radius:  60% 60% 0 0 / 30% 30% 0 0 ;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: $space;
+            position: relative;
+
+            &:not(.leave)::after{
+                content: "松开发送";
+                position: absolute;
+                top: -30%;
+                left: 50%;
+                transform: translate(-50%);
+                font-size: 24rpx;
+                color: rgba($color: #fff, $alpha: .8);
+            }
+        }
+        .leave{
+            background: rgba($color: #000, $alpha: .5);
         }
     }
 </style>

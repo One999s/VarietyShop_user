@@ -33,6 +33,14 @@
 			}
 		},
 		{
+			"path": "pages/chat/chat", // 消息-聊天
+			"name": "chatChat",
+			"style": {
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom"
+			}
+		},
+		{
 			"path": "pages/shoppingCar/index", // 购物车
 			"name": "carIndex",
 			"style": {

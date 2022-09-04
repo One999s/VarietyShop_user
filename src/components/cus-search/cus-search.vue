@@ -11,6 +11,8 @@
 </template>
 
 <script>
+
+
     export default{
         props:{
             placeholder:String,
@@ -18,7 +20,6 @@
         },
         setup(props){
             const {placeholder="请输入"} = props;
-            console.log(props)
             return {
                 placeholder,
 

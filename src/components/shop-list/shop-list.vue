@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 15:59:19
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-02 23:45:58
+ * @LastEditTime: 2022-09-03 15:28:51
  * @FilePath: \varietyShop\frontend\users\src\components\shop-list\shop-list.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -21,7 +21,7 @@
                         <uni-badge :inverted="index==0"  :text="index" absolute="rightTop" size="small" >
                             <image :src="item.avatar" mode="aspectFill"/>
                         </uni-badge>
-                        <view class="sl_item_tag">新店</view>
+                        <cus-tag text="新店"/>
                     </view>
                     <view class="sl_item_right">
                         <view class="sl_item_name">{{item.name}}</view>
@@ -44,31 +44,38 @@
                             <view class="sl_item_mp">起送￥{{item.min_price}}</view>
                             <view>配送￥{{item.ps_price}}</view>
                         </view>
-                        
+                        <view class="tags_eva">
+                            <view v-for="(tag,ti) in item.tags_eva" :key="tag+ti">
+                                {{tag}}
+                            </view>
+                        </view>
+                        <view class="tags_money">
+                            <view v-for="(tag,ti) in item.tags_money" :key="tag+ti">
+                                {{tag}}
+                            </view>
+                        </view>
                     </view>
                 </view>
             </template>
             </uni-list-item>
         </uni-list>
 
-        <uni-load-more :status="status"></uni-load-more>
     </view>
 </template>
 
 <script>
 import { computed, ref, watch } from 'vue';
+import CusTag from '../cus-tag/cus-tag.vue';
     export default {
         props:{
-            list:{
+                list:{
                 type:Array,default:()=>([])
             }
         },
         setup(props){
             const list = computed(()=>props.list)
-            const status = ref("loading")
             return {
                 list,
-                status
             }
         }
     }
@@ -96,27 +103,14 @@ import { computed, ref, watch } from 'vue';
             height: 160rpx;
             border-radius: $space_padding;
         }
-        .sl_item_tag{
-            position: absolute;
-            left: -6rpx;
-            top: 4rpx;
-            z-index: 9;
-            width: 60rpx;
-            background: gold;
-            font-size: 12px;
-            text-align: center;
-            border-radius: 6rpx;
-            &::after{
-                content: " ";
-                position: absolute;
-            }
-        }
+        
     }
     .sl_item_left,.sl_item_right{
         display: flex;
         align-items: flex-start;
     }
     .sl_item_right{
+        transform: translateY(-.25em);
         flex:1;
         min-height: 100%;
         flex-direction: column;
@@ -143,4 +137,44 @@ import { computed, ref, watch } from 'vue';
     .sl_item_score_val{font-weight: bold;font-size: 26rpx;}
     .sl_item_distance{margin-left: calc($space_padding / 2);}
     .sl_item_mp{margin-right: calc($space_padding / 1.2);}
+    .tags_eva{
+        &>view{
+            margin-right: calc($space_padding / 1.2);
+            background-color: #fff0dd;
+            color: #E38352;
+            padding:3rpx 8rpx;
+            border-radius: 10rpx;
+            &:last-child{margin-right: 0;}}
+            transform: scale(.9) translateX(-6%);
+    }
+    .tags_money{
+        width: unset !important;
+        padding:0 8rpx;
+        border-radius: 10rpx;
+        border: 1px solid #D75855;
+        color: #D75855;
+        transform: scale(.9) translateX(-6%);
+        &>view{
+            position: relative;
+            &:not(:first-child){
+                padding-left:8rpx;
+            }
+            &:not(:last-child){
+                padding-right:8rpx;
+                &::after {
+                    content: " ";
+                    position:absolute;
+                    right: -1px;
+                    width: 1px;
+                    height: 100%;
+                    background:#D75855;
+                    transform: scale(.6);
+                }
+            }
+        }
+    }
+    
+    .tags_eva,.tags_money{
+        margin-top: calc($space_padding / 5);
+    }
 </style>

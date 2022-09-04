@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date:2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-03 13:42:53
+ * @LastEditTime: 2022-09-03 18:24:13
  * @FilePath: \varietyShop\frontend\users\src\pages\shops\index.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -18,6 +18,8 @@
 			<cus-search />
 			<category />
 			<shop-list :list="state.shopList"/>
+			<uni-load-more :status="status"></uni-load-more>
+
 		</view>
 	</view>
 </template>
@@ -37,6 +39,8 @@ import { reactive, ref } from 'vue'
 				shopList:[]
 			})
 			const shopList = ref([])
+            const status = ref("loading")
+
 			const getList = ()=>{
 				state.shopList = Array.from(new Array(20),(v,k)=>({
 					name:'店铺'+k,
@@ -48,8 +52,11 @@ import { reactive, ref } from 'vue'
 					latitude:null,
 					min_price:15,//起送费
 					distance:200+k+'m',
-					tags:[],
+					tags_eva:["网红店","热情掌柜"],
+					tags_money:["30减2","50减6"],
+					tags_other:[],
 					avatar:'https://img2.baidu.com/it/u=3096226424,2372933137&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1662224400&t=e9de05d24c07a8b4365213f5962ff0a6',
+
 				}))
 			}
 			setTimeout(()=>{
@@ -59,7 +66,8 @@ import { reactive, ref } from 'vue'
 			return {
 				state,
 				navTabHeight,
-				shopList
+				shopList,
+				status
 			}
 		}
 	}
@@ -68,7 +76,7 @@ import { reactive, ref } from 'vue'
 <style lang="scss" scoped>
 	#shopsIndex{
 		// background-image: linear-gradient($theme_color 5%,$theme_color2 15%,#fff) ;
-		background-image:linear-gradient(to bottom,#5d8dfd 2%, #9E50F2 15%, #fff 20%)
+		background-image:linear-gradient(to bottom,$theme_color 2%, $theme_color2 15%, #fff 20%)
 	}
 	.si_main{
 		background: $theme_bg;

@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 14:14:32
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-03 13:53:00
+ * @LastEditTime: 2022-09-03 19:47:11
  * @FilePath: \varietyShop\frontend\users\src\common\store\global.js
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -17,11 +17,21 @@ export const useStore = defineStore('global', {
       BG_LOGIN:"	https://pic.616pic.com/bg_w1180/00/06/34/vhuipmQ6fn.jpg!/fh/600"
       // buttonPrimaryBackgroundColor: '#07c160',
     },
+    appInfo:{
+      name:'V',
+      beanName:'V豆',
+      icon_vip:"/static/icons/vip.png"
+    },
     category:[],
+    user:{
+      avatar:'https://img2.baidu.com/it/u=772251462,959863533&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1662310800&t=1b3581fa77193dcf3dcbc044200adbbe',
+      nickname:'用户名',
+      lastLoginTime:'2022-09-03'
+    },
   }),
   actions: {
-    increment() {
-      
+    setUser(user) {
+      this.user = user||{}
     },
   },
   getters: {

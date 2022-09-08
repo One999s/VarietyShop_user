@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 15:59:19
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-03 15:28:51
+ * @LastEditTime: 2022-09-06 13:33:56
  * @FilePath: \varietyShop\frontend\users\src\components\shop-list\shop-list.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -16,7 +16,7 @@
                 :key="index"
             >
             <template v-slot:body>
-                <view class="sl_item">
+                <view class="sl_item" @click="()=>handleToStore(item)">
                     <view class="sl_item_left">
                         <uni-badge :inverted="index==0"  :text="index" absolute="rightTop" size="small" >
                             <image :src="item.avatar" mode="aspectFill"/>
@@ -65,17 +65,22 @@
 
 <script>
 import { computed, ref, watch } from 'vue';
-import CusTag from '../cus-tag/cus-tag.vue';
     export default {
         props:{
-                list:{
+            list:{
                 type:Array,default:()=>([])
             }
         },
         setup(props){
             const list = computed(()=>props.list)
+            const handleToStore = (row)=>{
+                uni.navigateTo({
+                     url: `/pages/shops/store?id=${row.id}`
+                });
+            }
             return {
                 list,
+                handleToStore
             }
         }
     }

@@ -4,6 +4,7 @@
 			"path": "pages/index/index", // 首页
 			"name": "index",
 			"style": {
+				"enablePullDownRefresh":true,
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle":"custom"
 			}
@@ -12,6 +13,7 @@
 			"path": "pages/user/index", // 用户中心
 			"name": "userIndex",
 			"style": {
+				"enablePullDownRefresh":true,
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle":"custom"
 			}
@@ -20,6 +22,7 @@
 			"path": "pages/shops/index", // 商店
 			"name": "shopsIndex",
 			"style": {
+				"enablePullDownRefresh":true,
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle":"custom"
 			}
@@ -28,6 +31,7 @@
 			"path": "pages/chat/index", // 消息
 			"name": "chatIndex",
 			"style": {
+				"enablePullDownRefresh":true,
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle":"custom"
 			}
@@ -36,6 +40,7 @@
 			"path": "pages/chat/chat", // 消息-聊天
 			"name": "chatChat",
 			"style": {
+				"enablePullDownRefresh":true,
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle":"custom"
 			}
@@ -44,6 +49,7 @@
 			"path": "pages/shoppingCar/index", // 购物车
 			"name": "carIndex",
 			"style": {
+				"enablePullDownRefresh":true,
 				"navigationBarTitleText": "uni-app",
 				"navigationStyle":"custom"
 			}
@@ -76,7 +82,12 @@
 			"path": "pages/shops/store", // 店铺
 			"name": "shopsStore",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"enablePullDownRefresh":false,
+				"navigationBarTitleText": "uni-app",
+				"navigationStyle":"custom",
+				"app-plus": {
+					"bounce": "none"
+				}
 			}
 		},
 		{
@@ -120,7 +131,6 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#FCFCFC",
 		"backgroundColor": "#FCFCFC",
-		"enablePullDownRefresh":true,
 		"h5": {
 			"pullToRefresh": {
 				"support":true,

@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-04 14:11:18
+ * @LastEditTime: 2022-09-06 14:31:21
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -113,6 +113,9 @@ uni-page-body > view {
   .is-input-border{
     border-color: $theme_color !important;
     border-radius: $space !important;
+    &>view{
+      display: flex;
+    }
   }
   button,uni-button{
     background: linear-gradient(to right, $theme_color,$theme_color2);
@@ -152,10 +155,35 @@ uni-page-body > view {
   .uni-navbar__header-btns-left{flex:.85 !important;}
   .type_err{color: $theme_color_im !important;}
 }
+.chat_content {
+  .uni-icons{color:#fff !important}
+}
+.nav_icons_white{
+  .uni-icons{color:#fff !important}
+}
 
+.shops_store .uni-navbar__header-btns{width: 60rpx !important;}
+.shops_store .uni-navbar__header-btns-right{width: 150rpx !important;}
 
+.icon_im{
+  color: $theme_color_im;
+  .uni-icons{color:$theme_color_im !important}
+}
 
+.scrollMain{
+	.uni-navbar__header-btns-left{
+		display: none !important;
+	}
+  uni-nav-bar,.uni-navbar,.uni-navbar__header,.uni-navbar__content{
+    background-color: #fff !important;
+    transition: all .5s;
+
+  }
+}
 // #ifdef H5
 .si_main,.chat_main{padding-bottom: var(--window-bottom) !important;}
+.shops_store .uni-navbar__header-btns-right{
+  display: none !important;
+}
 // #endif
 </style>

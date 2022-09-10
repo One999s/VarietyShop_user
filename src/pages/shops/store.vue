@@ -3,7 +3,7 @@
   components: { uniIcons }, one9s 9665730@qq.com
  * @Date: 2022-08-17 18:14:44
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-08 17:27:17
+ * @LastEditTime: 2022-09-10 22:18:11
  * @FilePath: \varietyShop\frontend\users\src\pages\shops\store.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -47,7 +47,7 @@
         @touchstart="
           ({ changedTouches }) => (state.touchCard = changedTouches[0].pageY)
         "
-        @touchmove="cardtouchmove"
+        @touchmove.stop.prevent="cardtouchmove"
       >
         <view class="shop_name">{{ shopDetail.name }}</view>
         <view class="shop_avatar"
@@ -140,7 +140,7 @@
       <view
         class="shop_box"
         id="shop_box"
-        @touchmove="shoptouchmove"
+        @touchmove.stop.prevent="shoptouchmove"
         @touchend="shoptouchend"
         :style="{
           'margin-top': (state.shopInfoHeight+state.shopInfoh5Height) + 'px',
@@ -159,7 +159,9 @@
           @clickItem="onClickItem"
         />
         <view class="shop_main">
-          <category-list v-show="category.current === 0" :list="categoryList" />
+          <category-list v-show="category.current === 0" :list="categoryList" 
+          @scrollCate="handleScrollCate"
+          />
           <view v-show="category.current === 1"> 评论 </view>
           <view v-show="category.current === 2"> 商家 </view>
         </view>
@@ -318,6 +320,20 @@ export default {
       }
     };
 
+    /**
+     * @description: 带动页面滚动
+     * @param {*} top
+     * @return {*}
+     */
+    const handleScrollCate = (top)=>{
+      uni.pageScrollTo({
+        scrollTop:top,
+        // #ifndef MP-WEIXIN
+        duration:0
+        // #endif
+      })
+    }
+
     getShopDetail();
     getList();
 
@@ -330,6 +346,7 @@ export default {
       cardtouchmove,
       shoptouchmove,
       shoptouchend,
+      handleScrollCate,
     };
   },
 };
@@ -378,7 +395,10 @@ $ssbg_height: 240rpx;
   z-index: 11;
   border-radius: 50rpx 50rpx 0 0/50rpx 50rpx 0 0;
   background: #fff;
+  
 }
+
+
 .shop_box {
   z-index: 99;
   background: #fff;
@@ -517,4 +537,6 @@ $ssbg_height: 240rpx;
     padding-top: 36px; // ss_segmented菜单
   }
 }
+
+
 </style>

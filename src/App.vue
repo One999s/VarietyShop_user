@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-11 22:06:33
+ * @LastEditTime: 2022-09-14 21:44:40
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -139,28 +139,7 @@ uni-page-body > view {
   border: 1px solid $theme_color;
   justify-content: flex-start !important;
 }
-.cus_search {
-  .uni-easyinput__content-input,
-  input {
-    height: unset !important;
-  }
-  .is-input-border {
-    border-color: $theme_color !important;
-    border-radius: $space !important;
-    & > view {
-      display: flex;
-    }
-  }
-  button,
-  uni-button {
-    background: linear-gradient(to right, $theme_color, $theme_color2);
-    border-radius: $space !important;
-    color: #fff;
-    &::after {
-      content: none;
-    }
-  }
-}
+
 
 .shop_list_wrapper {
   .uni-list {

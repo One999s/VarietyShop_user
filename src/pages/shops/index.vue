@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date:2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-13 12:57:20
+ * @LastEditTime: 2022-09-14 22:24:44
  * @FilePath: \varietyShop\frontend\users\src\pages\shops\index.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -22,7 +22,7 @@
 			</template>
 		</uni-nav-bar>
 		<view class="si_main" :style="{'min-height':navTabHeight}">
-			<cus-search />
+			<cus-search :left="searchLeft" :showRight="showRight"/>
 			<category />
 			<shop-list :list="state.shopList"/>
 			<uni-load-more :status="status"></uni-load-more>
@@ -46,7 +46,8 @@ import {onPageScroll} from '@dcloudio/uni-app'
             const status = ref("loading")
 			const navColor = ref(`rgba(255,255,255,1)`)
 			const navBgColor = ref(`rgba(255,255,255,0)`)
-			
+			const searchLeft = ref(null);
+			const showRight = ref(true);
 			const getList = ()=>{
 				state.shopList = Array.from(new Array(20),(v,k)=>({
 					name:'店铺'+k,
@@ -71,6 +72,8 @@ import {onPageScroll} from '@dcloudio/uni-app'
 				let num = Number(e.scrollTop/44).toFixed(2)
 				navBgColor.value = `rgba(255,255,255,${Number(e.scrollTop/44).toFixed(2)})`
 				navColor.value = num>0.5?`rgba(0,0,0,${num})`:`rgba(255,255,255,${1-num})`
+				searchLeft.value = `calc(${(120/60)*e.scrollTop}rpx)`
+				showRight.value = !(e.scrollTop>30)
 
 			})
 
@@ -86,6 +89,8 @@ import {onPageScroll} from '@dcloudio/uni-app'
 				status,
 				navColor,
 				navBgColor,
+				searchLeft,
+				showRight,
 			}
 		}
 	}
@@ -102,8 +107,10 @@ import {onPageScroll} from '@dcloudio/uni-app'
 		padding: $space_padding;
 	}
 	.nav_address{
+		width: 100rpx;
+		overflow: hidden;
 		display: flex;
 		align-items: center;
-		&>text{margin-right: 10rpx;}
+		&>text{margin-right: 10rpx;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;flex:1;}
 	}
 </style>

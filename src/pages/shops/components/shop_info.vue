@@ -9,8 +9,8 @@
                         {{detail.address}}
                     </text>
                 </view>
-                <view class="theme_icon si_phone">
-                    <uni-icons type="phone" :size="28"/>
+                <view class="theme_icon si_phone" >
+                    <uni-icons type="phone" :size="28" @click="handleShowCall"/>
                 </view>
             </view>
             <scroll-view scroll-x class="si_picture_list">
@@ -37,6 +37,9 @@
                 </view>
             </view>
         </view>
+
+    
+
     </view>
 </template>
 
@@ -44,7 +47,7 @@
 import { ref } from 'vue';
 
     export default {
-        setup(){
+        setup(props,{emit}){
             const detail = ref({
                 name:"店铺0001",
                 address:"福建省泉州市搭嘎gas大时代奥术大师大阿萨啊阿斯达阿萨请问去",
@@ -61,9 +64,15 @@ import { ref } from 'vue';
                 services:[{label:"到店自取"}]
             })
 
+            const handleShowCall  = ()=>{
+                emit("handleShowCall")
+            }
+
+            
 
             return {
-                detail
+                detail,
+                handleShowCall
             }
         }
     }

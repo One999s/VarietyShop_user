@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-05 17:47:08
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-13 13:33:25
+ * @LastEditTime: 2022-09-14 21:24:13
  * @FilePath: \varietyShop\frontend\users\src\components\category-list\category-list.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -102,9 +102,9 @@ export default {
             .selectAll(".cate_item")
             .boundingClientRect((data) => {
               categoryTopList.value = data;
-              console.log(data);
             })
             .exec();
+            console.log("over")
         });
       }
     );

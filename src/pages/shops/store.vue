@@ -3,7 +3,7 @@
   components: { uniIcons }, one9s 9665730@qq.com
  * @Date: 2022-08-17 18:14:44
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-10 22:18:11
+ * @LastEditTime: 2022-09-13 13:33:35
  * @FilePath: \varietyShop\frontend\users\src\pages\shops\store.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -143,9 +143,11 @@
         @touchmove.stop.prevent="shoptouchmove"
         @touchend="shoptouchend"
         :style="{
-          'margin-top': (state.shopInfoHeight+state.shopInfoh5Height) + 'px',
+          'margin-top': (state.shopInfoHeight) + 'px',
           transform: `translateY(${
-            state.showCardAll ? '100vh' : state.scrollY + 'px'
+            state.showCardAll
+              ? '100vh'
+              : (state.scrollY) + 'px'
           })`,
           transition: state.showCardAll ? 'all .5s' : 'none',
         }"
@@ -156,27 +158,66 @@
           :values="category.items"
           style-type="text"
           active-color="#08A1DB"
-          @clickItem="onClickItem"
+          @clickItem="(e)=>onClickItem('top',e)"
         />
         <view class="shop_main">
-          <category-list v-show="category.current === 0" :list="categoryList" 
-          @scrollCate="handleScrollCate"
-          />
-          <view v-show="category.current === 1"> 评论 </view>
-          <view v-show="category.current === 2"> 商家 </view>
+          <swiper class="swiper" :current="category.current"
+          @change="(e)=>onClickItem('swiper',e)"
+            :style="`height:${goodsHeight}`"
+          >
+            <swiper-item>
+                <!-- <swiper
+                autoplay
+                circular
+                :duration="1500"
+                class="shop_banner_list"
+                >
+                  <swiper-item v-for="(banner,bi) in shopDetail.bannerList"
+                  :key="bi"
+                  >
+                  <image :src="banner.imgSrc" mode="scaleToFill"/>
+                </swiper-item>
+                </swiper> -->
+                <category-list
+                    v-show="category.current === 0"
+                    :list="categoryList"
+                    @scroll="handleScrollCate"
+                    :height="goodsHeight"
+                  />
+            </swiper-item>
+            <swiper-item>
+                <comment-shop 
+                    @scroll="handleScrollCate"
+                    :height="goodsHeight"
+                />
+            </swiper-item>
+            <swiper-item>
+              <Shop_info />
+            </swiper-item>
+          </swiper>
         </view>
       </view>
     </view>
+
+    <goods-nav 
+    v-show="category.current === 0"
+    />
+
   </view>
 </template>
 
 <script>
 import { reactive, ref, getCurrentInstance, nextTick, watch } from "vue";
 import { onPageScroll } from "@dcloudio/uni-app";
+import { useStore } from "../../common/store/global";
+import { storeToRefs } from "pinia";
+import Shop_info from './components/shop_info.vue';
 export default {
+  components: { Shop_info },
   setup() {
+    const store = useStore();
+    const {systemInfo} = storeToRefs(store);
     const instance = getCurrentInstance();
-
     const state = reactive({
       star: false,
       scrollMain: false,
@@ -187,8 +228,10 @@ export default {
       scrollY: 0, // 商品分类盒子Y值
       scrollYTEMP: 0, // 临时参数 对比scrollY
       shopInfoHeight: 0, // 商家信息盒子折叠高度
-      shopInfoh5Height:0, // h5端加高度
       cardOpacity: 1, // 透明度
+      scrollYOther:0,// 在非微信端 商品导航盒子父类的离顶值
+      exceptHeight:80,// 商品导航列表高度 100vh - 该值
+
     });
     const shopDetail = ref({});
     const category = reactive({
@@ -196,7 +239,7 @@ export default {
       items: ["点菜", "评价", "商家"],
     });
     const categoryList = ref([]);
-
+    const goodsHeight = ref(null)
     watch(
       () => state.showCardAll,
       (newValue) => {
@@ -213,27 +256,42 @@ export default {
         })
         .exec();
     });
-
+    
     onPageScroll((e) => {
       let { top } = state.shop_box;
       const limen = e.scrollTop;
+      if(limen===0) return
       // + (44 + 16 + 20); // 44 navbar,  16 公告高度, 20状态栏
       // #ifdef H5
       top += 44;
       // #endif
-      console.log(limen, top);
       if (limen > top) {
-          
         state.scrollMain = true;
       } else {
         state.scrollMain = false;
       }
     });
+    
+    const setGoodsHeight = ()=>{
+      let height = state.exceptHeight;
+      try{
+        height+=systemInfo.value.safeArea.top
+      }catch(err){console.log(err)}
+      goodsHeight.value = `calc(100vh - ${height}px)`
+    }
 
-    const onClickItem = (e) => {
-      if (category.current !== e.currentIndex) {
-        category.current = e.currentIndex;
+    const onClickItem = (type,e) => {
+      if(type==='top'){
+          if (category.current !== e.currentIndex) {
+            category.current = e.currentIndex;
+          }
       }
+      if(type==='swiper'){
+        if (category.current !== e.detail.current) {
+          category.current = e.detail.current;
+        }
+      }
+      
     };
 
     const getShopDetail = () => {
@@ -254,13 +312,17 @@ export default {
         tags_other: [],
         notice:
           "嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎嘎嘎公告嘎嘎嘎嘎",
+        bannerList:[
+          {imgSrc:"https://img1.baidu.com/it/u=3564880749,765979212&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=281",},
+          {imgSrc:"https://img0.baidu.com/it/u=3396392022,2368409094&fm=253&fmt=auto&app=138&f=JPEG?w=970&h=485",},
+          {imgSrc:"https://img1.baidu.com/it/u=4140417176,3922343117&fm=253&fmt=auto&app=138&f=JPEG?w=601&h=380",},
+        ]
       };
       nextTick(() => {
         let query = uni.createSelectorQuery().in(instance);
         query
           .select(".shop_info")
           .boundingClientRect((data) => {
-            console.log(data);
             let height = data.height;
             state.shopInfoHeight = height;
           })
@@ -269,8 +331,8 @@ export default {
     };
     const getList = () => {
       setTimeout(() => {
-        categoryList.value = Array.from(new Array(20), (v, k) => ({
-          name: "分类" + k,
+        categoryList.value = Array.from(new Array(5), (v, k) => ({
+          name: (k?"分类":"分类分类分类分类分类分类分类分类分类分类分类分类分类") + k,
           icon: "",
           children: new Array(10).fill({
             name: "分类" + k + "商品",
@@ -295,6 +357,7 @@ export default {
     };
 
     const shoptouchmove = (e) => {
+      if(state.scrollMain) return;
       const { pageY } = e.changedTouches[0];
       if (!state.scrollYTEMP) {
         state.scrollYTEMP = pageY;
@@ -325,15 +388,21 @@ export default {
      * @param {*} top
      * @return {*}
      */
-    const handleScrollCate = (top)=>{
-      uni.pageScrollTo({
-        scrollTop:top,
-        // #ifndef MP-WEIXIN
-        duration:0
+    const handleScrollCate = (top) => {
+      // if (top < 1000) {
+        let duration = 0
+        // #ifdef MP-WEIXIN
+        duration = 100
         // #endif
-      })
-    }
+        uni.pageScrollTo({
+          scrollTop: top,
+          
+           duration,
+        });
+      // }
+    };
 
+    setGoodsHeight()
     getShopDetail();
     getList();
 
@@ -342,6 +411,7 @@ export default {
       shopDetail,
       category,
       categoryList,
+      goodsHeight,
       onClickItem,
       cardtouchmove,
       shoptouchmove,
@@ -395,9 +465,7 @@ $ssbg_height: 240rpx;
   z-index: 11;
   border-radius: 50rpx 50rpx 0 0/50rpx 50rpx 0 0;
   background: #fff;
-  
 }
-
 
 .shop_box {
   z-index: 99;
@@ -537,6 +605,11 @@ $ssbg_height: 240rpx;
     padding-top: 36px; // ss_segmented菜单
   }
 }
-
-
+.swiper{
+  background: $theme_bg;
+}
+.shop_banner_list{
+  height: 240rpx;
+  image{width:100%;height: 100%;}
+}
 </style>

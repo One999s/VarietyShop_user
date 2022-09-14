@@ -2,18 +2,25 @@
  * @Author: one9s 9665730@qq.com
  * @Date:2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-03 18:24:13
+ * @LastEditTime: 2022-09-13 12:57:20
  * @FilePath: \varietyShop\frontend\users\src\pages\shops\index.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
 -->
 <template>
 	<view id="shopsIndex">
-		<uni-nav-bar class="nav_bar_transparent"  :border="false" 
+		<uni-nav-bar class=""  :border="false" 
 		statusBar
 		fixed
-		left-text="外卖"
-		/>
+		:backgroundColor="navBgColor"
+		>
+			<template #left>
+				<view class="nav_address">
+					<text :style="`color:${navColor}`">泉州</text>
+					<uni-icons type="bottom" :size="14" :color="navColor"/>
+				</view>
+			</template>
+		</uni-nav-bar>
 		<view class="si_main" :style="{'min-height':navTabHeight}">
 			<cus-search />
 			<category />
@@ -26,11 +33,8 @@
 
 <script>
 import { reactive, ref } from 'vue'
-// import {onPageScroll} from '@dcloudio/uni-app'
+import {onPageScroll} from '@dcloudio/uni-app'
 	export default{
-		onPageScroll(e){
-			console.log(e)
-		},
 		setup(){
 			const systemInfo = uni.getSystemInfoSync()
 			const navTabHeight = (systemInfo.windowHeight - (systemInfo.statusBarHeight + 44))+'px'
@@ -40,7 +44,9 @@ import { reactive, ref } from 'vue'
 			})
 			const shopList = ref([])
             const status = ref("loading")
-
+			const navColor = ref(`rgba(255,255,255,1)`)
+			const navBgColor = ref(`rgba(255,255,255,0)`)
+			
 			const getList = ()=>{
 				state.shopList = Array.from(new Array(20),(v,k)=>({
 					name:'店铺'+k,
@@ -59,6 +65,16 @@ import { reactive, ref } from 'vue'
 
 				}))
 			}
+
+			onPageScroll(e=>{
+				if(e.scrollTop>60) return;
+				let num = Number(e.scrollTop/44).toFixed(2)
+				navBgColor.value = `rgba(255,255,255,${Number(e.scrollTop/44).toFixed(2)})`
+				navColor.value = num>0.5?`rgba(0,0,0,${num})`:`rgba(255,255,255,${1-num})`
+
+			})
+
+
 			setTimeout(()=>{
 				getList()
 			},1500)
@@ -67,7 +83,9 @@ import { reactive, ref } from 'vue'
 				state,
 				navTabHeight,
 				shopList,
-				status
+				status,
+				navColor,
+				navBgColor,
 			}
 		}
 	}
@@ -82,5 +100,10 @@ import { reactive, ref } from 'vue'
 		background: $theme_bg;
 		border-radius: $space $space 0 0;
 		padding: $space_padding;
+	}
+	.nav_address{
+		display: flex;
+		align-items: center;
+		&>text{margin-right: 10rpx;}
 	}
 </style>

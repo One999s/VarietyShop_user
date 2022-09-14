@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-10 22:14:50
+ * @LastEditTime: 2022-09-11 22:06:33
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -63,7 +63,7 @@ uni-page-body > view {
 }
 
 
-::-webkit-scrollbar {
+::-webkit-scrollbar{
   display: none;
   width: 0 !important;
   height: 0 !important;
@@ -90,13 +90,17 @@ uni-page-body > view {
 .ubox_top .uni-icons {
   color: rgba(0, 0, 0, 0.5) !important;
 }
+.cim_add .uni-icons {
+  color: #fff !important;
+}
 
 .uni-card {
   border-radius: $border-radius !important;
 }
-.uni-icons {
-  color: $theme_color !important;
+.theme_icon .uni-icons {
+    color: $theme_color !important;
 }
+
 .bt_radius {
   border-radius: 50rpx;
 }

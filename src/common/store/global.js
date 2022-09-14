@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 14:14:32
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-03 19:47:11
+ * @LastEditTime: 2022-09-11 19:41:43
  * @FilePath: \varietyShop\frontend\users\src\common\store\global.js
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -28,6 +28,7 @@ export const useStore = defineStore('global', {
       nickname:'用户名',
       lastLoginTime:'2022-09-03'
     },
+    systemInfo:uni.getSystemInfoSync(),// 系统信息
   }),
   actions: {
     setUser(user) {

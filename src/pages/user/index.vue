@@ -2,13 +2,13 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-08-17 18:14:44
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-03 21:03:43
+ * @LastEditTime: 2022-09-11 22:05:37
  * @FilePath: \varietyShop\frontend\users\src\pages\user\index.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
 -->
 <template>
-	<view class="user_index">
+	<view class="theme_icon user_index ">
 		<uni-nav-bar class="nav_bar_transparent" statusBar :border="false" title="我的" color="#fff"/>
 		<view class="user_bg">
 			<view class="cus_card user_info_box">

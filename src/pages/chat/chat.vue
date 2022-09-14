@@ -2,6 +2,7 @@
   <view
     :class="{
       chat_box: true,
+      theme_icon: true,
     }"
   >
     <uni-nav-bar statusBar :border="false" fixed>
@@ -35,7 +36,10 @@
         >
         <view class="chat_item_box">
           <view class="chat_avatar">
-            <image :src="(item.sender ? user.avatar : shopDetai.avatar)" class="chat_avatar"></image>
+            <image
+              :src="item.sender ? user.avatar : shopDetai.avatar"
+              class="chat_avatar"
+            ></image>
           </view>
           <view
             :class="{
@@ -46,7 +50,12 @@
             @click="() => (item.voicePath ? playVoice(item) : {})"
           >
             <view v-if="item.voicePath">8''</view>
-            <uni-icons v-if="item.voicePath" type="sound" :size="24" style="margin-left:5%;"/>
+            <uni-icons
+              v-if="item.voicePath"
+              type="sound"
+              :size="24"
+              style="margin-left: 5%"
+            />
             <text v-else>{{ item.content }}</text>
           </view>
           <view class="chat_type">
@@ -66,6 +75,7 @@
           </view>
         </view>
       </view>
+      <view id="scrollBottom"></view>
     </view>
 
     <!-- 录音 -->
@@ -87,7 +97,7 @@
       </view>
     </view>
     <!-- 底部操作栏 -->
-    <view class="chat_tool">
+    <view class="chat_tool" >
       <view>
         <uni-icons
           :type="state.isMic ? 'compose' : 'mic'"
@@ -118,6 +128,7 @@
 <script>
 import { reactive, ref, getCurrentInstance, nextTick } from "vue";
 import { useStore } from "../../common/store/global";
+import { onPageScroll } from "@dcloudio/uni-app";
 
 export default {
   props: {
@@ -137,7 +148,11 @@ export default {
       mic_close_in: false, // 手指不在语音范围
       tempFilePath: null,
     });
+    const scrollTop = ref(null)
 
+    onPageScroll((e) => {
+      scrollTop.value = e.scrollTop
+    });
     // #ifndef H5
     const recorderManager = uni.getRecorderManager(); // 录音管理器
     const innerAudioContext = uni.createInnerAudioContext();
@@ -210,8 +225,7 @@ export default {
     const touchmove = (e) => {
       let now = e.changedTouches[0];
       let { mic_ing } = state;
-    console.log(`当前Y${now.pageY}--区域TOP${mic_ing.top}******当前X${now.pageX}--区域Right${mic_ing.right}`)
-      if (now.pageY > mic_ing.top && now.pageX < mic_ing.right) {
+      if ((now.pageY-scrollTop.value) > mic_ing.top && now.pageX < mic_ing.right) {
         // 在语音范围内
         state.mic_ing_in = true;
         state.mic_close_in = false;
@@ -248,6 +262,13 @@ export default {
           sender: true,
           voicePath: state.tempFilePath,
         });
+        nextTick(()=>{
+          // 回滚到最新消息（页面底部）
+          uni.pageScrollTo({
+            selector:"#scrollBottom",
+            duration:0
+          });
+        })
       }
       if (state.mic_close_in) {
         console.log("取消");
@@ -261,7 +282,7 @@ export default {
     getShopDetail();
     getList();
     return {
-        user,
+      user,
       shopDetai,
       chatList,
       state,
@@ -290,12 +311,15 @@ $chat_avatar_margin: 10rpx;
   align-items: center;
 }
 .chat_box {
-  background-color: $theme_bg;
   .chat_avatar {
     width: $chat_avatar_height;
     height: $chat_avatar_height;
     border-radius: 50%;
   }
+}
+.chat_box,
+.chat_list {
+  background-color: $theme_bg;
 }
 .chat_nav_left {
   display: flex;
@@ -378,7 +402,7 @@ $chat_avatar_margin: 10rpx;
     background: $theme_color;
     color: #fff;
   }
-  &.chat_content_voice{
+  &.chat_content_voice {
     min-width: 30%;
     display: flex;
     justify-content: flex-end;
@@ -403,7 +427,7 @@ $chat_avatar_margin: 10rpx;
     margin: 0 $space_padding;
     display: flex;
     align-items: center;
-    position:relative;
+    position: relative;
     button {
       flex: 1;
       border: none;

@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 15:59:19
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-06 13:33:56
+ * @LastEditTime: 2022-09-11 22:11:30
  * @FilePath: \varietyShop\frontend\users\src\components\shop-list\shop-list.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -75,7 +75,7 @@ import { computed, ref, watch } from 'vue';
             const list = computed(()=>props.list)
             const handleToStore = (row)=>{
                 uni.navigateTo({
-                     url: `/pages/shops/store?id=${row.id}`
+                     url: `/pages/shops/store?id=${row.id||''}`
                 });
             }
             return {

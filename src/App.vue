@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-17 23:55:34
+ * @LastEditTime: 2022-09-18 13:22:10
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -75,6 +75,7 @@ uni-page-body > view {
 
 
 .hidescroll{overflow: hidden;}
+
 
 
 // uni-page-body > view {
@@ -245,4 +246,21 @@ uni-page-body > view {
   display: none !important;
 }
 // #endif
+
+
+
+
+.page_scar{
+
+checkbox .wx-checkbox-input,
+checkbox .uni-checkbox-input {
+	border-radius: 50% !important;
+}
+checkbox[checked] .wx-checkbox-input,
+checkbox.checked .uni-checkbox-input{
+	background:linear-gradient(to right,#08A1DB,#25D9B6) !important;
+	border-color: #08A1DB !important;
+	color: #ffffff !important;
+}
+}
 </style>

@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-11 11:49:58
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-11 17:36:25
+ * @LastEditTime: 2022-09-18 11:01:39
  * @FilePath: \varietyShop\frontend\users\src\components\goods-nav\goods-nav.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.

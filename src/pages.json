@@ -101,6 +101,7 @@
 			"path": "pages/search/index", // 搜索页面
 			"name": "searchIndex",
 			"style": {
+				"navigationStyle":"custom",
 				"navigationBarTitleText": "uni-app"
 			}
 		}

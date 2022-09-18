@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-14 21:44:40
+ * @LastEditTime: 2022-09-17 23:55:34
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -74,6 +74,9 @@ uni-page-body > view {
 
 
 
+.hidescroll{overflow: hidden;}
+
+
 // uni-page-body > view {
 //   padding: 1;
 // }
@@ -125,6 +128,9 @@ uni-page-body > view {
 }
 .uni-easyinput__placeholder-class {
   font-size: 14px !important;
+}
+.uni-navbar--fixed{
+  z-index: 9999 !important;
 }
 .nav_bar_transparent {
   uni-nav-bar,
@@ -184,6 +190,15 @@ uni-page-body > view {
     color: $theme_color_im !important;
   }
 }
+.page_search{
+  .uni-navbar__header-btns-left {
+    display: none !important;
+  }
+  .uni-navbar__header-btns-right{
+    width: 170rpx !important;
+  }
+}
+
 .chat_content {
   .uni-icons {
     color: #fff !important;

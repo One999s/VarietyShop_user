@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 09:17:12
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-14 22:34:03
+ * @LastEditTime: 2022-09-16 18:57:48
  * @FilePath: \varietyShop\frontend\users\src\components\cus-search\cus-search.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -19,7 +19,7 @@
       'padding-right': `calc(${left} * 1.5)`,
     }"
   >
-    <view class="cus_main">
+    <view class="cus_main" @click="()=>handleToSearchPage()">
       <view class="cus_content">
         <uni-icons type="search" color="#000" />
         <view class="cus_search_text">
@@ -51,9 +51,14 @@ export default {
   },
   setup(props) {
     const showRight = computed(() => props.showRight);
-
+    const handleToSearchPage = ()=>{
+      uni.navigateTo({
+         url: `/pages/search/index?`
+      });
+    }
     return {
       showRight,
+      handleToSearchPage,
     };
   },
 };
@@ -66,7 +71,7 @@ export default {
   left: 0;
   position: sticky;
   position: -webkit-sticky;
-  z-index: 999;
+  z-index: 9999;
   font-size: 25rpx;
   .cus_main {
     display: flex;

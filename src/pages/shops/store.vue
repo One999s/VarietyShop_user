@@ -3,7 +3,7 @@
   components: { uniIcons }, one9s 9665730@qq.com
  * @Date: 2022-08-17 18:14:44
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-14 21:38:44
+ * @LastEditTime: 2022-09-18 23:00:42
  * @FilePath: \varietyShop\frontend\users\src\pages\shops\store.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -186,7 +186,7 @@
               />
             </swiper-item>
             <swiper-item>
-              <comment-shop @scroll="handleScrollCate" :height="goodsHeight" />
+              <comment-shop @scroll="handleScrollCate" :height="goodsHeight" showDetail/>
             </swiper-item>
             <swiper-item>
               <Shop_info @handleShowCall="handleShowCall"/>
@@ -349,13 +349,11 @@ export default {
     };
     const getList = () => {
       setTimeout(() => {
-        categoryList.value = Array.from(new Array(5), (v, k) => ({
+        categoryList.value = Array.from(new Array(2), (v, k) => ({
           name:
-            (k
-              ? "分类"
-              : "分类分类分类分类分类分类分类分类分类分类分类分类分类") + k,
+            "分类" + k,
           icon: "",
-          children: new Array(10).fill({
+          children: new Array(5).fill({
             name: "分类" + k + "商品",
             imgSrc:
               "https://img2.baidu.com/it/u=3096226424,2372933137&fm=253&app=138&size=w931&n=0&f=JPEG&fmt=auto?sec=1662224400&t=e9de05d24c07a8b4365213f5962ff0a6",

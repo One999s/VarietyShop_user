@@ -55,7 +55,15 @@
             "urlCheck" : false
         },
         "usingComponents" : true,
-        "lazyCodeLoading": "requiredComponents"
+        "lazyCodeLoading": "requiredComponents",
+        "permission": {
+            "scope.userLocation": {
+                "desc": "提供服务"
+            }
+        },
+        "requiredPrivateInfos": [
+            "getLocation"
+        ]
     },
     "mp-alipay" : {
         "usingComponents" : true

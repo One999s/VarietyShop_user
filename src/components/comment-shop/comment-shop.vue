@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-11 19:45:35
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-12 18:15:51
+ * @LastEditTime: 2022-09-18 23:00:26
  * @FilePath: \varietyShop\frontend\users\src\components\comment-shop\comment-shop.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -15,7 +15,7 @@
     @scroll="handleCommentScroll"
     :style="`height:${height}`"
     >
-    <view class="cs_top">
+    <view class="cs_top" v-if="showDetail">
         <view class="cs_score_box">
             <view class="sc_score_s">
                 <view class="cs_score">4.5</view>
@@ -91,12 +91,13 @@ import { computed, ref } from 'vue';
 
 export default {
     props:{
-        height:{type:String,default:'100vh'}
+        height:{type:String,default:'100vh'},
+        showDetail:{type:Boolean,default:false}
     },
     setup(props,{emit}){
         const commentList = ref([])
         const height = computed(()=>props.height)
-        commentList.value = Array.from(new Array(100),(e,k)=>({
+        commentList.value = Array.from(new Array(2),(e,k)=>({
             avatar:"https://tenfei04.cfp.cn/creative/vcg/nowater800/new/VCG41N1359302793.jpg?x-oss-process=image/format,webp",
             nickname:"张"+k,
             rate:k%5,

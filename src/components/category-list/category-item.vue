@@ -33,7 +33,9 @@
                 </view>
                 <view>
                     <view class="cim_tool">
-                        <view class="cim_del" v-if="false">—</view>
+                        <view class="cim_del" v-if="false">
+                            <uni-icons custom-prefix="iconfont" type="del" color="#000"></uni-icons>
+                        </view>
                         <view class="cim_nums" v-if="false">1</view>
                         <view class="cim_add">
                             <uni-icons type="plusempty" />

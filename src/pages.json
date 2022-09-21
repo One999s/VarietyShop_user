@@ -104,6 +104,38 @@
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path": "pages/shops/goods_detail", // 商品详情页
+			"name": "GoodsDetail",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/shops/goods_comment", // 商品评价页
+			"name": "GoodsComment",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/user/address", // 用户地址
+			"name": "UserAddress",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/user/address_edit", // 用户地址操作
+			"name": "UserAddressEdit",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
 		}
 	],
 	"tabBar": {

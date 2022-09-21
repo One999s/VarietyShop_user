@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-08-17 18:14:44
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-11 22:05:37
+ * @LastEditTime: 2022-09-21 22:06:31
  * @FilePath: \varietyShop\frontend\users\src\pages\user\index.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -32,7 +32,8 @@
 					<view>全部订单 <uni-icons type="right" /></view>
 				</view>
 				<view class="flex">
-					<view v-for="(item,index) in toolOrderList" :key="index">
+					<view v-for="(item,index) in toolOrderList" :key="index"
+					>
 						<image :src="item.icon" mode="aspectFit"/>
 						<view>{{item.label}}</view>
 					</view>
@@ -40,7 +41,9 @@
 			</view>
 			
 			<view class="cus_card  ubox_tool">
-				<view v-for="(item,index) in toolList" :key="index">
+				<view v-for="(item,index) in toolList" :key="index"
+				class="ubox_item"
+				>
 					<image :src="item.icon" mode="aspectFit"/>
 					<view>{{item.label}}</view>
 				</view>
@@ -49,7 +52,10 @@
 			
 
 			<view class="cus_card  ubox_cards">
-				<view v-for="(item,index) in cardList" :key="index">
+				<view v-for="(item,index) in cardList" :key="index"
+				class="ubox_item"
+				
+				>
 					<image :src="item.icon" mode="aspectFit"/>
 					<view>{{item.label}}</view>
 				</view>
@@ -180,5 +186,9 @@ export default{
 		border-bottom: 1rpx solid rgba($color: #000, $alpha: .1);
 		color: rgba(0,0,0,.5);
 		
+	}
+	.ubox_item{
+		width: calc(100% / 4);
+
 	}
 </style>

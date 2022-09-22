@@ -136,6 +136,14 @@
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path": "pages/user/address_choose", // 用户地址选择
+			"name": "UserAddressChoose",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
 		}
 	],
 	"tabBar": {

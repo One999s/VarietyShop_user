@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-21 21:40:07
+ * @LastEditTime: 2022-09-22 17:21:33
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -49,7 +49,7 @@ view,
 text,
 image,
 img,
-button {
+button,cover-view {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -121,12 +121,19 @@ uni-page-body > view {
     font-size: 50rpx !important;
   }
 }
+.ae_form_box{
+  .uni-forms-item:last-child{
+     width: 50% !important;
+   }
+}
 
 .uni-easyinput__content {
   background-color: transparent !important;
 }
-.uni-forms-item__label {
-  display: none !important;
+view.clearFormLabel{
+  .uni-forms-item__label {
+    display: none !important;
+  }
 }
 .uni-easyinput__placeholder-class {
   font-size: 14px !important;

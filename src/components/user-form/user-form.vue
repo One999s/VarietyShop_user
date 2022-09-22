@@ -1,5 +1,5 @@
 <template>
-    <view  class="user_form" >
+    <view  class="clearFormLabel user_form" >
         <uni-forms ref="formRef" :model="formData" :rules="rules">
 		
 			<uni-forms-item name="username">

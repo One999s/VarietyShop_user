@@ -144,6 +144,30 @@
 				"navigationStyle":"custom",
 				"navigationBarTitleText": "uni-app"
 			}
+		},
+		{
+			"path": "pages/order/confirm", // 下单页 订单确认
+			"name": "OrderConfirm",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/order/detail", // 订单详情
+			"name": "OrderDetail",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
+		},
+		{
+			"path": "pages/order/index", // 我的订单
+			"name": "OrderIndex",
+			"style": {
+				"navigationStyle":"custom",
+				"navigationBarTitleText": "uni-app"
+			}
 		}
 	],
 	"tabBar": {

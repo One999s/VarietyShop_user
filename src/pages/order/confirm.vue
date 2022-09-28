@@ -13,8 +13,8 @@
         <view class="poc_bg"></view>
         <view class="poc_main">
             <view class="poc_card poc_sh">
-                <view>
-                    <view>
+                <view @click="handleShowAddressChoose">
+                    <view >
                         <view class="address">地址</view>
                         <view class="poc_tips">姓名 131111111111</view>
                     </view>
@@ -127,15 +127,92 @@
             </view>
             <view class="oc_submit">提交订单</view>
         </view>
+
+
+
+
+
+
+        <uni-popup ref="popup_address" type="bottom"
+        @touchmove.stop.prevent="()=>{}"
+        >
+            <view class="address_choose_box">
+                <view class="p_title_box">
+                    <view></view>
+                    <view>选择收获地址</view>
+                    <uni-icons type="closeempty" @click="closePopupAddress"/>
+                </view>
+                <view>
+                    
+                    <radio-group @change="addressChooseChange"
+                    style="flex:1;width:100%;"
+                    >
+                        <label class="address_box_item"
+                        v-for="(item, index) in addressList.filter(item=>!item.exceed)" :key="index">
+                            <radio :value="item.value" :checked="index === 0" />
+                            <view class="address_box_item_content">
+                                <view>
+                                    <view class="address_content">
+                                        <text>{{item.address}}</text>
+                                        <text>{{item.detailed}}</text>
+                                    </view>
+                                    <view class="poc_tips">
+                                        <text>{{item.name}}</text>
+                                        <text>{{item.mobile}}</text>
+                                    </view>
+                                </view>
+                                <view>
+                                    <uni-icons type="compose"/>
+                                </view>
+                            </view>
+                        </label>
+                        <view class="line_box" ></view>
+                        <label class="address_box_item"
+                        v-for="(item, index) in addressList.filter(item=>item.exceed)" :key="index">
+                            <radio :value="item.value" :checked="index === 0" />
+                            <view class="address_box_item_content">
+                                <view>
+                                    <view class="address_content">
+                                        <text>{{item.address}}</text>
+                                        <text>{{item.detailed}}</text>
+                                    </view>
+                                    <view class="poc_tips">
+                                        <text>{{item.name}}</text>
+                                        <text>{{item.mobile}}</text>
+                                    </view>
+                                </view>
+                                <view>
+                                    <uni-icons type="compose"/>
+                                </view>
+                            </view>
+                        </label>
+                    </radio-group>
+                </view>
+            </view>
+        </uni-popup>
+
+
     </view>
 </template>
 
 <script>
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 
     export default{
         setup(){
             const orderList = ref([])
+            const popup_address = ref(null);
+
+            const addressList = ref(Array.from(new Array(10),(v,k)=>({
+                latitude:'',
+                longitude:'',
+                address:"泉州信息工程学院",
+                detailed:"光大银行旁",
+                name:"Q",
+                mobile:"13333333333",
+                exceed:k>6,
+            })));
+
             orderList.value = Array.from(new Array(2),(v,k)=>({
                 name:"店铺"+k,
                 goods:Array.from(new Array(k+1),(v,k)=>({
@@ -146,8 +223,25 @@ import { ref } from 'vue';
                     price:k+5,
                 }))
             }))
+            
+
+            const closePopupAddress = ()=>{
+                popup_address.value.close()
+            }
+            const addressChooseChange = (e)=>{
+                console.log(e.detail.vale)
+            }
+            const handleShowAddressChoose = ()=>{
+                popup_address.value.open()
+                
+            }
             return {
-                orderList
+                orderList,
+                addressList,
+                popup_address,
+                closePopupAddress,
+                addressChooseChange,
+                handleShowAddressChoose,
             }
         }
     }
@@ -295,4 +389,42 @@ import { ref } from 'vue';
         color: #fff;
         margin-left: 20rpx;
     }
+
+
+    .address_choose_box{
+        width: 100%;
+        height: 85vh;
+        background: #fff;
+        border-radius: 20rpx 20rpx 0 0 ;
+        padding: 20rpx;
+        .p_title_box{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 30rpx;
+            font-weight: bold;
+        }
+        &>view{
+            display: flex;
+            align-items: center;
+        }
+    }
+    .address_box_item{
+        display: flex;
+        align-items: center;
+        margin: 30rpx 0;
+    }
+    .address_box_item_content{
+        .address_content{
+            font-weight: bold;
+            font-size: 30rpx;
+        }
+        text{margin:10rpx;}
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+    }
+    .line_box{width: 100%;height: 10rpx;background: $theme_bg;}
 </style>

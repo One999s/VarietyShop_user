@@ -2,7 +2,7 @@
  * @Author: one9s 9665730@qq.com
  * @Date: 2022-09-02 13:41:22
  * @LastEditors: one9s 9665730@qq.com
- * @LastEditTime: 2022-09-23 14:33:24
+ * @LastEditTime: 2022-09-28 19:51:09
  * @FilePath: \varietyShop\frontend\users\src\App.vue
  * @Description: '
  * Copyright (c) 2022 by one9s 9665730@qq.com, All Rights Reserved.
@@ -91,7 +91,7 @@ uni-page-body > view {
   box-shadow: rgb(0 0 0 / 8%) 0px 0px 3px 1px;
   border-radius: 15rpx;
 }
-
+.uni-popup{z-index: 99999 !important;}
 .ubox_top .uni-icons {
   color: rgba(0, 0, 0, 0.5) !important;
 }
